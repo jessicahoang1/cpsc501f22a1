@@ -2,106 +2,101 @@ import java.util.Scanner;
 
 public class Main {
 
-	private static String firstName;
-	private static String lastName;
-	private static String bankingType;
-	private static String accountType;
-	private static String amount;
-	private static String investmentAnswer;
-	private static String investmentTypeAnswer;
-	private static double newBalance;
-	private static String transfer;
-	private static String transferAmount;
-	
-	static Scanner input = new Scanner(System.in);
-	static BankingTasks banker = new BankingTasks("");
-	static PersonalBanking myTasks = new PersonalBanking();
-	
-	public static void printBankingBalance(Account account) {
-		System.out.println("\n"+"Your balance is: ");
-		System.out.println("Chequing Account:" + account.getChequing());
-		System.out.println("Savings Account:" + account.getSavings());
-	}
-	
-	public static void getUserInput() {
-		System.out.println("Please enter first name: ");
-		firstName = input.nextLine();
-		System.out.println("Please enter last name: ");
-		lastName = input.nextLine();
-		
-		System.out.println("What do you want to do? [Withdraw/Deposit/Check Balance/]");
-		bankingType = input.nextLine();
-		
-		System.out.println("From Chequing or Savings?");	
-		accountType = input.nextLine();
-
-		System.out.println("How much do you want to withdraw/deposit? (Enter and integer)");	
-		amount = input.nextLine();
-		
-		System.out.println("Do you want to make any investments? [Yes/No]");
-		investmentAnswer = input.nextLine();
-		
-		System.out.println("Which type of investment do you want to make? [GIC/Mutual Bonds/Security/None]");
-		investmentTypeAnswer = input.nextLine();
-		
-		System.out.println("Do you want to transfer money from Chequing to Savings? [Yes/No]");
-		transfer = input.nextLine();
-		
-		System.out.println("How much do you want to transfer?");
-		transferAmount = input.nextLine();
-		
-	}
+	public static String answer;
 
 	public static void main (String[] args) {
 	
-		getUserInput();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Please enter first name: ");
+		String firstName = input.nextLine();
+
+		Scanner input2 = new Scanner(System.in);
+		System.out.println("Please enter last name: ");
+		String lastName = input2.nextLine();
+
+		Bank banker = new Bank();
 
 		Account jAccount = new Account(firstName, lastName);
+		banker.addAccount(jAccount.lastName);
 		
-		banker.addAccount(jAccount.getLastName());
+		PersonalBanking myTasks = new PersonalBanking();
+			
+		Scanner personalBankingInput = new Scanner(System.in);
+		System.out.println("What do you want to do? [Withdraw/Deposit/Check Balance]");
+	
+		answer = personalBankingInput.nextLine();
 		
-		if(bankingType.equalsIgnoreCase("Withdraw")) {
-			if(accountType.equalsIgnoreCase("Chequing")) {
-				newBalance = myTasks.withdrawalChequing(jAccount, Integer.parseInt(amount));
-				jAccount.setChequing(newBalance);
-			}
-			if (accountType.equalsIgnoreCase("Savings")) {
-				newBalance = myTasks.withdrawalSavings(jAccount, Integer.parseInt(amount));
-				jAccount.setSavings(newBalance);
-			}
-		}
-		if (bankingType.equalsIgnoreCase("Deposit")) {
-			if(accountType.equalsIgnoreCase("Chequing")) {
-				newBalance = myTasks.depositChequing(jAccount, Integer.parseInt(amount));
-				jAccount.setChequing(newBalance);
-			}
-			if (accountType.equalsIgnoreCase("Savings")) {
-				newBalance = myTasks.depositSavings(jAccount, Integer.parseInt(amount));
-				jAccount.setSavings(newBalance);
-			}			
-		}
-		if (bankingType.equalsIgnoreCase("Check Balance")) {
-			printBankingBalance(jAccount);
+		if(answer.equalsIgnoreCase("Withdraw")) {
+			Scanner personalBankingAccountInput = new Scanner(System.in);
+			System.out.println("From Chequing or Savings?");	
+			answer = personalBankingAccountInput.nextLine();
+			if(answer.equalsIgnoreCase("Chequing")) {
+				Scanner howMuchMoney = new Scanner(System.in);
+				System.out.println("How much do you want to withdraw from your Chequing account? (Enter and integer)");	
+				answer = howMuchMoney.nextLine();
+				double decreaseMoney = myTasks.withdrawalChequing(jAccount, Integer.parseInt(answer));
+				jAccount.chequing = decreaseMoney;
+				System.out.println("Your balance is: ");
+				System.out.println("Chequing Account:" + jAccount.chequing);
+				System.out.println("Savings Account:" + jAccount.savings);
+			} else if (answer.equalsIgnoreCase("Savings")) {
+				Scanner howMuchMoney = new Scanner(System.in);
+				System.out.println("How much do you want to withdraw from your Savings account? (Enter and integer)");	
+				answer = howMuchMoney.nextLine();
+				double decreaseMoney = myTasks.withdrawalSavings(jAccount, Integer.parseInt(answer));
+				jAccount.savings = decreaseMoney;
+				System.out.println("Your balance is: ");
+				System.out.println("Chequing Account:" + jAccount.chequing);
+				System.out.println("Savings Account:" + jAccount.savings);
 
+			}
+		} else if (answer.equalsIgnoreCase("Deposit")) {
+			Scanner personalBankingAccountInput = new Scanner(System.in);
+			System.out.println("From Chequing or Savings?");	
+			answer = personalBankingAccountInput.nextLine();
+			if(answer.equalsIgnoreCase("Chequing")) {
+				Scanner howMuchMoney = new Scanner(System.in);
+				System.out.println("How much do you want to withdraw from your Chequing account? (Enter and integer)");	
+				answer = howMuchMoney.nextLine();
+				double addMoney = myTasks.depositChequing(jAccount, Integer.parseInt(answer));
+				jAccount.chequing = addMoney;
+				System.out.println("Your balance is: ");
+				System.out.println("Chequing Account:" + jAccount.chequing);
+				System.out.println("Savings Account:" + jAccount.savings);
+
+			} else if (answer.equalsIgnoreCase("Savings")) {
+				Scanner howMuchMoney = new Scanner(System.in);
+				System.out.println("How much do you want to deposit from your Savings account? (Enter and integer)");	
+				answer = howMuchMoney.nextLine();
+				double addMoney = myTasks.depositSavings(jAccount, Integer.parseInt(answer));
+				jAccount.savings = addMoney;
+				System.out.println("Your balance is: ");
+				System.out.println("Chequing Account:" + jAccount.chequing);
+				System.out.println("Savings Account:" + jAccount.savings);
+
+			}			
+		} else if (answer.equalsIgnoreCase("Check Balance")) {
+			System.out.println("Chequing Account:" + jAccount.chequing);
+			System.out.println("Savings Account:" + jAccount.savings);
 		}
 		
-		if(investmentAnswer.equalsIgnoreCase("Yes")) {
-			BankingTasks investMoney = new BankingTasks(investmentTypeAnswer);
-			investMoney.getFinancialAdvisorInformation("Jessica Hoang", "jessicahoang@bank.com", "4033458237");
-			newBalance = investMoney.appliedRatesForInvestmentTypes(jAccount);
-			jAccount.setSavings(newBalance);
-			System.out.println("Your financial advisor is: " + investMoney.getAdvisor().getName() + ", Email: " + investMoney.getAdvisor().getEmail() + ", Phone #: " + investMoney.getAdvisor().getNumber());
-		}	
+		Scanner investInput = new Scanner(System.in);
+		System.out.println("Do you want to make any investments? [Yes/No]");
 		
-		if(transfer.equalsIgnoreCase("Yes")) {
-			Chequing cheq = new Chequing(firstName, lastName);
-			cheq.setChequing(jAccount.getChequing());
-			cheq.moneyTransferCheqToSav(Double.parseDouble(transferAmount));
-			cheq.display();
-			jAccount.setChequing(cheq.getChequing());
-		}
+		answer = investInput.nextLine();
 		
-		printBankingBalance(jAccount);
+		if(answer.equalsIgnoreCase("Yes")) {
+			Scanner investInputType = new Scanner(System.in);
+			System.out.println("Which type of investment do you want to make? [GIC/Mutual Bonds/Security]");
+			answer = investInputType.nextLine();
+			Investments investMoney = new Investments(answer);
+			double addedMoney = investMoney.savingsRates(jAccount);
+			jAccount.savings = addedMoney;
+			investMoney.setFinancialAdvisor("Jessica Hoang");
+			System.out.println("Your financial advisor is: " + investMoney.getAdvisor());
+			System.out.println("Your balance after you invested is now: ");
+			System.out.println("Savings Account:" + jAccount.savings);
+		}		
 		
 	}
 }

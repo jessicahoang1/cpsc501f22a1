@@ -20,7 +20,7 @@ class PersonalBankingTest {
 		double epsilon = 0.000001d;
 
 		Account accountSimulator = new Account("Jessica", "Hoang");
-		accountSimulator.setChequing(1000);
+		accountSimulator.chequing = 1000;
 		
 		PersonalBanking personalSimulator = new PersonalBanking();
 		double actual = personalSimulator.withdrawalChequing(accountSimulator, 100);
@@ -35,7 +35,7 @@ class PersonalBankingTest {
 		double epsilon = 0.000001d;
 
 		Account accountSimulator = new Account("Jessica", "Hoang");
-		accountSimulator.setSavings(1000);
+		accountSimulator.savings = 1000;
 		
 		PersonalBanking personalSimulator = new PersonalBanking();
 		double actual = personalSimulator.withdrawalSavings(accountSimulator, 100);
